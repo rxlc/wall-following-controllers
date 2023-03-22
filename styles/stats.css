@@ -1,0 +1,43 @@
+.stats {
+    display: flex;
+
+    background-color: rgb(19, 19, 19);
+    opacity: 0.8;
+    
+    border: 2px solid rgb(151, 151, 151);
+    border-radius: 3px;
+
+    padding: 12px;
+
+    flex-flow: row;
+    justify-items: center;
+    gap: 15px;
+    top: 0;
+    color: white;
+}
+
+.dcol {
+    display: flex;
+    flex-flow: column;
+    justify-items: center;
+    gap: 10px;
+}
+
+.drow {
+    display: flex;
+    flex-flow: row;
+    justify-items: center;
+    gap: 10px;
+
+    min-width: 115px;
+
+    margin-bottom: 18%;
+}
+
+.sm {
+    font-size: 12px;
+}
+
+.lg {
+    font-size: 21px;
+}

@@ -1,0 +1,19 @@
+.settings {
+    display: flex;
+
+    background-color: rgb(19, 19, 19);
+    opacity: 0.8;
+    
+    border: 2px solid rgb(151, 151, 151);
+    border-radius: 3px;
+
+    width: 300px;
+
+    padding: 12px;
+
+    flex-flow: row;
+    justify-items: center;
+    gap: 15px;
+    top: 0;
+    color: white;
+}

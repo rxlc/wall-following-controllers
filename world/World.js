@@ -15,7 +15,7 @@ export default class World {
         this.car = new Car(p)
 
         this.path = []
-        this.setPathCurved();
+        this.setPathStraight();
 
         this.error = 0
 
@@ -24,21 +24,23 @@ export default class World {
         }
 
         this.pdConfig = {
-            pGain: 0.6,
-            dGain: 1.5
+            pGain: 1,
+            dGain: 0.3
         }
 
         this.pConfig = {
             pGain: 0.1
         }
 
-        this.controlMode = "Proportional Derivative"
+        this.controlMode = "Bang Bang"
     }
 
-    setPathStraight(y = 320) {
+    setPathStraight() {
         this.path = []
 
-        for (let i=0; i<this.p.windowWidth; i+=1) {
+        let y = Math.floor(Math.random() * 50) + 200 
+
+        for (let i=0; i<=this.p.windowWidth; i+=1) {
             this.path.push(y)
         }
     }
@@ -46,15 +48,17 @@ export default class World {
     setPathCurved() {
         this.path = []
         
-        const noiseFrequency = 400; 
-        const noiseScale = 0.001; 
-        const noiseSeed = 1234; 
+        let noiseFrequency = 610; 
+        let noiseScale = 0.003; 
+        let noiseSeed = Math.floor(Math.random() * 100); 
+
+        let setY = Math.floor(Math.random() * 100) + 250 
 
         const noiseObj = new noise.Noise(noiseSeed);
 
-        for (let x = 0; x <= this.p.windowWidth; x++) {
-            let y = 300;
-            let noiseValue = noiseObj.perlin2(x * noiseScale, 0) * noiseFrequency;
+        for (let i=0; i <= this.p.windowWidth; i++) {
+            let y = setY;
+            let noiseValue = noiseObj.perlin2(i * noiseScale, 0) * noiseFrequency;
             y += noiseValue;
             this.path.push(y);
         }

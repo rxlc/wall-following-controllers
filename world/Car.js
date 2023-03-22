@@ -10,11 +10,12 @@ export default class Car {
 
         this.p = p
 
-        this.pos = p.createVector(100,150)
+        this.defaultPos = p.createVector(100,150)
+        this.pos = this.defaultPos.copy()
         this.vel = 0
 
         this.setAcc = 0.04
-        this.acc = this.setAcc
+        this.acc = 0//this.setAcc
 
         this.maxVel = 3
 
@@ -26,6 +27,15 @@ export default class Car {
         this.posHist = []
 
         this.toggleCooldown = false
+    }
+
+    reset() {
+        this.acc = 0
+        this.vel = 0
+        this.angleVel = 0
+        this.angle = 0
+        this.posHist = []
+        this.pos = this.defaultPos.copy()
     }
 
     setAngleVel(angleVel) {
@@ -46,15 +56,20 @@ export default class Car {
         }
     }
 
-    update() {
+    updatePath() {
         this.posHist.push(this.pos.copy())
 
         if (this.posHist.length > 600) {
             this.posHist.shift()
         }
+    }
 
+    update() {
+        this.updatePath()
+        //Position
         if (this.vel < this.maxVel && this.acc != 0) {
             this.vel += this.acc
+            
         } else if (this.acc == 0) {
             if (this.vel > 0) {
                 this.vel -= this.setAcc/3
@@ -63,9 +78,13 @@ export default class Car {
             }
         }
 
+
         this.pos.add(this.p.cos(this.p.radians(this.angle)) * this.vel, this.p.sin(this.p.radians(this.angle)) * this.vel)
 
-        if (this.acc != 0) this.angle += this.angleVel
+        if (this.acc != 0) {    
+            this.angle += this.angleVel
+        }
+
 
         if (this.pos.x > this.p.windowWidth + this.size.x) {
             this.pos.x = -this.size.x
