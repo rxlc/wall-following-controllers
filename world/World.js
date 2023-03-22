@@ -22,6 +22,8 @@ export default class World {
         this.bangBangConfig = {
             turnAngle: 10
         }
+        
+        this.elapsed = 0;
 
         this.pdConfig = {
             pGain: 1,
@@ -77,8 +79,10 @@ export default class World {
     }
 
     pd() {
+        this.elapsed += 0.05;
+        
         if (this.car.vel != 0 & this.car.acc != 0) {
-            this.car.setAngleVel(-(this.pdConfig.dGain * this.car.angle) - (this.pdConfig.pGain * this.error)/this.car.maxVel)
+            this.car.setAngleVel(-(this.pdConfig.dGain * this.car.angle) - ((this.pdConfig.pGain * this.error)/this.car.maxVel) - (this.elapsed*this.error))
         }
     }
 
