@@ -76,9 +76,9 @@ export default class World {
         this.car.setAngleVel(this.p.radians(-this.pConfig.pGain * this.error))
     }
 
-    pd() {
+    pd() {        
         if (this.car.vel != 0 & this.car.acc != 0) {
-            this.car.setAngleVel(-(this.pdConfig.dGain * this.car.angle) - (this.pdConfig.pGain * this.error)/this.car.maxVel)
+            this.car.setAngleVel(-(this.pdConfig.dGain * this.car.angle) - ((this.pdConfig.pGain * this.error)/this.car.maxVel))
         }
     }
 
