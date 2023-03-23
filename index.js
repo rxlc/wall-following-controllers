@@ -15,16 +15,19 @@ let pdButton = document.getElementById("pd")
 bangBangButton.addEventListener("click", () => {
   world.controlMode = "Bang Bang"
   cCElement.innerText = world.controlMode
+  updateCSettings();
 })
 
 pButton.addEventListener("click", () => {
   world.controlMode = "Proportional"
   cCElement.innerText = world.controlMode
+  updateCSettings();
 })
 
 pdButton.addEventListener("click", () => {
   world.controlMode = "Proportional Derivative"
   cCElement.innerText = world.controlMode
+  updateCSettings();
 })
 
 //Stats
@@ -84,6 +87,108 @@ document.addEventListener("keydown", (event) => {
     world.car.toggleCar()
   }
 })
+
+//Settings
+let maxVel = document.getElementById("maxVel")
+let acc = document.getElementById("acc")
+
+let cts = document.getElementById("cts")
+
+if (world.car) {
+  maxVel.value = world.car.maxVel
+  acc.value = world.car.setAcc
+}
+
+maxVel.addEventListener("focusout", () => {
+  if (isNaN(maxVel.value) || parseFloat(maxVel.value) < 0) maxVel.value = 0
+
+  world.car.maxVel = parseFloat(maxVel.value)
+  world.car.reset()
+})
+
+acc.addEventListener("focusout", () => {
+  if (isNaN(acc.value) || parseFloat(acc.value) < 0) {
+    acc.value = 0
+  }
+  
+  world.car.setAcc = parseFloat(acc.value)
+  world.car.reset()
+})
+
+updateCSettings();
+
+function updateCSettings() {
+  if (world.controlMode == "Proportional Derivative") {
+    cts.innerHTML = 
+    `
+      <div class="scol">
+        <input class="sinput" type="text" id="kp" placeholder="Kp"/>
+        <div class="tn">Proportional Gain</div>
+      </div>
+      <div class="scol">
+        <input class="sinput" type="text" id="kd" placeholder="Kd"/>
+        <div class="tn">Derivative Gain</div>
+      </div>
+    `
+    let kp = document.getElementById("kp")
+    let kd = document.getElementById("kd")
+
+    kp.value = world.pdConfig.pGain
+    kd.value = world.pdConfig.dGain
+
+    kp.addEventListener("focusout", () => {
+      if (isNaN(kp.value) || parseFloat(kp.value) < 0) kp.value = 0
+    
+      world.pdConfig.pGain = parseFloat(kp.value)
+      world.car.reset()
+    })
+
+    kd.addEventListener("focusout", () => {
+      if (isNaN(kd.value) || parseFloat(kd.value) < 0) kd.value = 0
+    
+      world.pdConfig.dGain = parseFloat(kd.value)
+      world.car.reset()
+    })
+  } else if (world.controlMode == "Proportional") {
+    cts.innerHTML = 
+    `
+      <div class="scol">
+        <input class="sinput" type="text" id="kp" placeholder="Kp"/>
+        <div class="tn">Proportional Gain</div>
+      </div>
+    `
+
+    let kp = document.getElementById("kp")
+
+    kp.value = world.pConfig.pGain
+
+    kp.addEventListener("focusout", () => {
+      if (isNaN(kp.value) || parseFloat(kp.value) < 0) kp.value = 0
+    
+      world.pConfig.pGain = parseFloat(kp.value)
+      world.car.reset()
+    })
+  } else if (world.controlMode == "Bang Bang") {
+    cts.innerHTML = 
+    `
+      <div class="scol">
+        <input class="sinput" type="text" id="bg" placeholder=""/>
+        <div class="tn">Turn Angle</div>
+      </div>
+    `
+
+    let bg = document.getElementById("bg")
+
+    bg.value = world.bangBangConfig.turnAngle
+
+    bg.addEventListener("focusout", () => {
+      if (isNaN(bg.value) || parseFloat(bg.value) < 0) bg.value = 0
+    
+      world.bangBangConfig.turnAngle = parseFloat(bg.value)
+      world.car.reset()
+    })
+  }
+}
 
 
 p.createCanvas(100,100);

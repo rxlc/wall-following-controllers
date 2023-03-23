@@ -49,6 +49,7 @@ export default class Car {
             this.toggleCooldown = true
 
             this.acc = (this.acc == 0) ? this.setAcc : 0
+            console.log(this.setAcc)
 
             setTimeout(() => {
                 this.toggleCooldown = false
@@ -69,6 +70,7 @@ export default class Car {
         //Position
         if (this.vel < this.maxVel && this.acc != 0) {
             this.vel += this.acc
+            console.log(this.acc)
             
         } else if (this.acc == 0) {
             if (this.vel > 0) {
@@ -84,7 +86,6 @@ export default class Car {
         if (this.acc != 0) {    
             this.angle += this.angleVel
         }
-
 
         if (this.pos.x > this.p.windowWidth + this.size.x) {
             this.pos.x = -this.size.x

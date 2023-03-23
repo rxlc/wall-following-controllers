@@ -11,9 +11,50 @@
 
     padding: 12px;
 
-    flex-flow: row;
-    justify-items: center;
+    flex-flow: column;
+    align-items: center;
+    justify-content: flex-start;
+
     gap: 15px;
     top: 0;
     color: white;
+}
+
+.sinput {
+    background: none;
+    border: none;
+    outline: none;
+    color: #f2e9e4;
+    border-bottom: 1px solid #e5e6e4;
+    width: 80%;
+
+    padding: 6px;
+
+    font-size: 15px;
+
+    transition: all 0.3s;
+}
+
+.sinput:focus {
+    border-bottom: 1px solid #8d86c9;
+}
+
+.scol {
+    display: flex;
+    flex-flow: column;
+    justify-items: center;
+}
+
+.srow {
+    display: flex;
+    flex-flow: row;
+    justify-items: center;
+    min-width: 115px;
+
+    margin-bottom: 3%;
+}
+
+.tn {
+    color: #7f7f7f;
+    font-size: 13px;
 }

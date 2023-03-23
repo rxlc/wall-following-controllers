@@ -11,7 +11,7 @@
 
     flex-flow: row;
     justify-items: center;
-    gap: 15px;
+    gap: 8px;
     top: 0;
     color: white;
 }
@@ -31,13 +31,17 @@
 
     min-width: 115px;
 
-    margin-bottom: 18%;
+    margin-bottom: 21%;
+}
+
+.t {
+    font-size: 13px;
 }
 
 .sm {
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .lg {
-    font-size: 21px;
+    font-size: 15px;
 }

@@ -48,8 +48,8 @@ export default class World {
     setPathCurved() {
         this.path = []
         
-        let noiseFrequency = 610; 
-        let noiseScale = 0.003; 
+        let noiseFrequency = 310; 
+        let noiseScale = 0.0015; 
         let noiseSeed = Math.floor(Math.random() * 100); 
 
         let setY = Math.floor(Math.random() * 100) + 250 

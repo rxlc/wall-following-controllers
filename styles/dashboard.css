@@ -51,3 +51,7 @@
 
     min-width: 115px;
 }
+
+.dline {
+    border-bottom: 1px solid #ffffff;
+}
