@@ -40,12 +40,12 @@ let error = document.getElementById("error")
 
 function updateDashboard() {
   if (world.car) {
-    positionX.innerText = `${Math.floor(world.car.pos.x)}`
-    positionY.innerText = `${Math.floor(world.car.pos.y)}`
-    velocity.innerText = `${Math.floor(world.car.vel * 100)/100}`
+    positionX.innerText = `${Math.floor(world.car.m.pos.x*10)/10}m`
+    positionY.innerText = `${Math.floor(world.car.m.pos.y*10)/10}m`
+    velocity.innerText = `${Math.floor(world.car.m.vel * 100)/100}m/s`
     heading.innerText = `${Math.floor(world.car.angle * 10)/10}°`
     angularVel.innerText = `${Math.floor(world.car.angleVel * 100)/100}°/s`
-    error.innerText = `${Math.floor(world.error * 100)/100}`
+    error.innerText = `${Math.floor(world.mError * 100)/100}m`
   }
 }
 
@@ -95,14 +95,15 @@ let acc = document.getElementById("acc")
 let cts = document.getElementById("cts")
 
 if (world.car) {
-  maxVel.value = world.car.maxVel
-  acc.value = world.car.setAcc
+  maxVel.value = world.car.mMaxVel
+  acc.value = world.car.mSetAcc
 }
 
 maxVel.addEventListener("focusout", () => {
   if (isNaN(maxVel.value) || parseFloat(maxVel.value) < 0) maxVel.value = 0
 
-  world.car.maxVel = parseFloat(maxVel.value)
+  world.car.mMaxVel = parseFloat(maxVel.value)
+  world.car.updateM()
   world.car.reset()
 })
 
@@ -111,7 +112,8 @@ acc.addEventListener("focusout", () => {
     acc.value = 0
   }
   
-  world.car.setAcc = parseFloat(acc.value)
+  world.car.mSetAcc = parseFloat(acc.value)
+  world.car.updateM()
   world.car.reset()
 })
 

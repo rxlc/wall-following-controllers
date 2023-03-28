@@ -11,8 +11,10 @@ export default class World {
         }
         instance = this
 
+        this.pmRatio = 100
+
         this.p = p
-        this.car = new Car(p)
+        this.car = new Car(p, this.pmRatio)
 
         this.path = []
         this.setPathStraight();
@@ -32,7 +34,7 @@ export default class World {
             pGain: 0.1
         }
 
-        this.controlMode = "Bang Bang"
+        this.controlMode = "Proportional Derivative"
     }
 
     setPathStraight() {
@@ -78,7 +80,7 @@ export default class World {
 
     pd() {        
         if (this.car.vel != 0 & this.car.acc != 0) {
-            this.car.setAngleVel(-(this.pdConfig.dGain * this.car.angle) - ((this.pdConfig.pGain * this.error)/this.car.maxVel))
+            this.car.setAngleVel(-(this.pdConfig.dGain * this.car.angle) - ((this.pdConfig.pGain * this.error)/this.car.mMaxVel))
         }
     }
 
@@ -88,11 +90,11 @@ export default class World {
         this.p.stroke(60)
         this.p.strokeWeight(2)
 
-        for (let i=0; i<this.p.windowWidth; i+=100) {
+        for (let i=0; i<this.p.windowWidth; i+=this.pmRatio) {
             this.p.line(i,0,i,this.p.windowHeight)
         }
 
-        for (let i=0; i<this.p.windowHeight; i+=100) {
+        for (let i=0; i<this.p.windowHeight; i+=this.pmRatio) {
             this.p.line(0,i,this.p.windowWidth,i)
         }
 
@@ -125,7 +127,7 @@ export default class World {
         this.p.strokeWeight(0)
         this.p.text("Error: ", this.car.pos.x + 8, (this.car.pos.y + this.path[Math.floor(this.car.pos.x)])/2 - 12)
         this.p.textSize(12)
-        this.p.text(Math.floor(this.error*100)/100 + "m", this.car.pos.x + 8, (this.car.pos.y + this.path[Math.floor(this.car.pos.x)])/2)
+        this.p.text(Math.floor((this.mError)*100)/100 + "m", this.car.pos.x + 8, (this.car.pos.y + this.path[Math.floor(this.car.pos.x)])/2)
 
         this.p.pop()
     }
@@ -134,6 +136,8 @@ export default class World {
         if (this.car.pos.x > 0 && this.car.pos.x < this.path.length) {
             this.error = this.car.pos.y - this.path[Math.floor(this.car.pos.x)]
         }
+        this.mError = this.error/this.pmRatio
+
         if (this.controlMode == "Bang Bang") this.bangBang()
         if (this.controlMode == "Proportional Derivative") this.pd()
         if (this.controlMode == "Proportional") this.proportional()

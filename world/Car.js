@@ -1,11 +1,14 @@
 let instance = null;
 
 export default class Car {
-    constructor(p) {
+    constructor(p, pmRatio) {
         if (instance) {
             console.log("Car instance already exists")
             return instance
         }
+
+        this.pmRatio = pmRatio
+
         instance = this
 
         this.p = p
@@ -14,10 +17,12 @@ export default class Car {
         this.pos = this.defaultPos.copy()
         this.vel = 0
 
-        this.setAcc = 0.04
+        this.mSetAcc = 1
+        this.setAcc = this.mSetAcc * this.pmRatio
         this.acc = 0//this.setAcc
 
-        this.maxVel = 3
+        this.mMaxVel = 4
+        this.maxVel = this.mMaxVel * this.pmRatio
 
         this.size = p.createVector(100,50)
 
@@ -27,7 +32,19 @@ export default class Car {
         this.posHist = []
 
         this.toggleCooldown = false
+
+        this.m = {
+            pos: this.defaultPos.copy(),
+            vel: 0,
+            acc: 0
+        }
     }
+
+    updateM() {
+        this.setAcc = this.mSetAcc * this.pmRatio
+        this.maxVel = this.mMaxVel * this.pmRatio
+    }
+
 
     reset() {
         this.acc = 0
@@ -67,21 +84,24 @@ export default class Car {
 
     update() {
         this.updatePath()
+
+        this.m.pos = this.pos.copy().div(this.pmRatio) 
+        this.m.vel = this.vel/this.pmRatio
+
+
         //Position
         if (this.vel < this.maxVel && this.acc != 0) {
-            this.vel += this.acc
-            console.log(this.acc)
+            this.vel += this.acc * (1/this.p.frameRate())
             
         } else if (this.acc == 0) {
             if (this.vel > 0) {
-                this.vel -= this.setAcc/3
+                this.vel -= this.setAcc * (1/this.p.frameRate())/3
             } else {
                 this.vel = 0
             }
         }
 
-
-        this.pos.add(this.p.cos(this.p.radians(this.angle)) * this.vel, this.p.sin(this.p.radians(this.angle)) * this.vel)
+        this.pos.add(this.p.cos(this.p.radians(this.angle)) * this.vel * (1/this.p.frameRate()), this.p.sin(this.p.radians(this.angle)) * this.vel * (1/this.p.frameRate()))
 
         if (this.acc != 0) {    
             this.angle += this.angleVel
