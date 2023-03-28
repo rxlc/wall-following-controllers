@@ -22,16 +22,16 @@ export default class World {
         this.error = 0
 
         this.bangBangConfig = {
-            turnAngle: 10
+            turnAngle: 50
         }
 
         this.pdConfig = {
-            pGain: 1,
-            dGain: 0.3
+            pGain: 5,
+            dGain: 4.7
         }
 
         this.pConfig = {
-            pGain: 0.1
+            pGain: 3
         }
 
         this.controlMode = "Proportional Derivative"

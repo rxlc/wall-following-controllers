@@ -44,7 +44,7 @@ function updateDashboard() {
     positionY.innerText = `${Math.floor(world.car.m.pos.y*10)/10}m`
     velocity.innerText = `${Math.floor(world.car.m.vel * 100)/100}m/s`
     heading.innerText = `${Math.floor(world.car.angle * 10)/10}°`
-    angularVel.innerText = `${Math.floor(world.car.angleVel * 100)/100}°/s`
+    angularVel.innerText = `${Math.floor(p.degrees(world.car.angleVel) * 100)/100}°/s`
     error.innerText = `${Math.floor(world.mError * 100)/100}m`
   }
 }
@@ -175,7 +175,7 @@ function updateCSettings() {
     `
       <div class="scol">
         <input class="sinput" type="text" id="bg" placeholder=""/>
-        <div class="tn">Turn Angle</div>
+        <div class="tn">Turn Angle Velocity °/s</div>
       </div>
     `
 

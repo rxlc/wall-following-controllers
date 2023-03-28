@@ -17,11 +17,11 @@ export default class Car {
         this.pos = this.defaultPos.copy()
         this.vel = 0
 
-        this.mSetAcc = 1
+        this.mSetAcc = 0.8
         this.setAcc = this.mSetAcc * this.pmRatio
         this.acc = 0//this.setAcc
 
-        this.mMaxVel = 4
+        this.mMaxVel = 2
         this.maxVel = this.mMaxVel * this.pmRatio
 
         this.size = p.createVector(100,50)
@@ -59,6 +59,10 @@ export default class Car {
         this.angleVel = angleVel
         //(Math.abs(angleVel) < 0.01) ? angleVel : angleVel/Math.abs(angleVel) * 0.1
         //this.angleVel *= this.vel/this.maxVel   
+    }
+
+    setAngle(angle) {
+        this.angle = angle
     }
 
     toggleCar() {
@@ -104,7 +108,7 @@ export default class Car {
         this.pos.add(this.p.cos(this.p.radians(this.angle)) * this.vel * (1/this.p.frameRate()), this.p.sin(this.p.radians(this.angle)) * this.vel * (1/this.p.frameRate()))
 
         if (this.acc != 0) {    
-            this.angle += this.angleVel
+            this.angle += this.angleVel * (1/this.p.frameRate())
         }
 
         if (this.pos.x > this.p.windowWidth + this.size.x) {
