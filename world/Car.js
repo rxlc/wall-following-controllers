@@ -142,7 +142,7 @@ export default class Car {
         this.p.textSize(11);
         this.p.text("Angular Velocity: ", this.pos.x + this.size.x/2 + 6, this.pos.y)
         this.p.textSize(13);
-        this.p.text(Math.floor(this.p.degrees(this.angleVel) * 100)/100 + "° /s", this.pos.x + this.size.x/2 + 6, this.pos.y + 15)
+        this.p.text(Math.floor(this.angleVel * 100)/100 + "° /s", this.pos.x + this.size.x/2 + 6, this.pos.y + 15)
         this.p.pop()
     }
 
